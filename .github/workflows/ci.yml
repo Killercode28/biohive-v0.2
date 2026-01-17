@@ -1,0 +1,61 @@
+name: BioHIVE Phase-1 CI (SQLite)
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  phase1-validation:
+    name: Phase-1 Contract & SQLite Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install backend dependencies
+        run: |
+          pip install fastapi uvicorn pydantic
+
+      - name: Backend import check
+        run: |
+          python - <<EOF
+          import backend.app
+          print("✅ backend.app imports correctly")
+          EOF
+
+      - name: SQLite availability check
+        run: |
+          python - <<EOF
+          import sqlite3
+          conn = sqlite3.connect("ci_test.db")
+          conn.execute("CREATE TABLE IF NOT EXISTS test (id INTEGER);")
+          conn.close()
+          print("✅ SQLite operational")
+          EOF
+
+      - name: Audit trail scaffold check
+        run: |
+          [ -f backend/services/audit.py ] || exit 1
+          echo "✅ Audit trail scaffold present"
+
+      - name: Integration rule files present
+        run: |
+          [ -f INTEGRATION_RULES.md ] || exit 1
+          [ -f HOW_TO_RUN.md ] || exit 1
+          echo "✅ Governance docs present"
+
+      - name: Forbidden cross-layer imports
+        run: |
+          if grep -r "from ml." backend/; then
+            echo "❌ Backend importing ML internals"
+            exit 1
+          fi
+          echo "✅ No forbidden imports"
