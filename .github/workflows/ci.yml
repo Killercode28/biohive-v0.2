@@ -22,7 +22,7 @@ jobs:
 
       - name: Install backend dependencies
         run: |
-          pip install fastapi uvicorn pydantic
+           pip install -r backend/requirements.txt
 
       - name: Backend import check
         run: |
