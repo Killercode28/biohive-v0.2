@@ -7,8 +7,8 @@ All data is accepted but flagged if suspicious
 from typing import Dict, List
 from datetime import date, timedelta
 from sqlalchemy.orm import Session
+from backend.schemas import DailyReport, Node
 
-from schemas import DailyReport
 
 
 class ValidationError(Exception):
@@ -422,7 +422,7 @@ def validate_node_exists(node_id: str, db: Session) -> bool:
     Raises:
         ValidationError: If node doesn't exist
     """
-    from schemas import Node
+    from backend.schemas import Node
     
     node = db.query(Node).filter(Node.node_id == node_id).first()
     

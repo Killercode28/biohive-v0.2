@@ -16,7 +16,7 @@ from typing import Dict, Optional, List
 from sqlalchemy.orm import Session
 from datetime import datetime
 
-from schemas import AuditTrail as AuditTrailModel, DailyReport
+from backend.schemas import AuditTrail as AuditTrailModel, DailyReport
 
 
 class AuditTrail:
