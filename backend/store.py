@@ -8,8 +8,7 @@ from sqlalchemy.orm import sessionmaker, Session
 from contextlib import contextmanager
 import os
 from dotenv import load_dotenv
-
-from schemas import Base
+from backend.schemas import Base
 
 # Load environment variables
 load_dotenv()
@@ -51,7 +50,7 @@ def seed_initial_data():
     """
     db = SessionLocal()
     try:
-        from schemas import Node
+        from backend.schemas import Node
         from passlib.context import CryptContext
         
         # Check if nodes already exist

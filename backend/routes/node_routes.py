@@ -8,14 +8,15 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from typing import Dict
 
-from store import get_db
-from schemas import DailyReport, Node
-from services.validation import (
+from backend.store import get_db
+from backend.schemas import DailyReport, Node
+from backend.services.validation import (
     validate_report, validate_node_exists, 
     validate_date_format, ValidationError
 )
-from services.audit import AuditTrail
-from services.response import (
+from backend.services.audit import AuditTrail
+
+from backend.services.response import (
     success_response, validation_error_response,
     not_found_response, internal_error_response
 )

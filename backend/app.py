@@ -13,10 +13,11 @@ from datetime import datetime
 load_dotenv()
 
 # Import database initialization
-from store import init_db
+from backend.store import init_db
 
 # Import routes
-from routes import node_routes
+from backend.routes import node_routes
+
 
 # API configuration from Section 7.1
 API_VERSION = os.getenv('API_VERSION', 'v1')
@@ -68,8 +69,8 @@ async def health_check():
     - Database is accessible
     - Audit trail integrity (optional)
     """
-    from store import SessionLocal
-    from schemas import Node
+    from backend.store import SessionLocal
+    from backend.schemas import Node
     
     health_status = {
         "status": "healthy",
